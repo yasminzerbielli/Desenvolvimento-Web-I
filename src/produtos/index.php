@@ -7,11 +7,19 @@ $produtos = (new ProdutoDAO(Conexao::get()))->listar();   // objetos Produto
 <a href="novo.php">+ Novo produto</a>
 <table border="1">
   <tr>
-<th>ID</th><th>Nome</th><th>Preço</th><th>Estoque</th><th></th>
+<th>ID</th><th>Foto</th><th>Nome</th><th>Preço</th><th>Estoque</th><th></th>
   </tr>
   <?php foreach ($produtos as $p): ?>
   <tr>
-    <td><?= $p->getId() ?></td><td><?= htmlspecialchars($p->getNome()) ?></td>
+    <td><?= $p->getId() ?></td>
+    <td>
+      <?php if ($p->getImagem()): ?>
+        <img src="../uploads/<?= htmlspecialchars($p->getImagem()) ?>" alt="<?= htmlspecialchars($p->getNome()) ?>" style="max-width: 100px">
+      <?php else: ?>
+        Sem foto
+      <?php endif; ?>
+    </td>
+    <td><?= htmlspecialchars($p->getNome()) ?></td>
     <td>R$ <?= number_format($p->getPreco(), 2, ',', '.') ?></td>
     <td><?= $p->getEstoque() ?></td>
     <td>

@@ -13,3 +13,11 @@ CREATE TABLE produtos (
   criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id)
 );
+
+ALTER TABLE produtos
+  ADD tipo ENUM('fisico','digital') NOT NULL DEFAULT 'fisico',
+  ADD peso_kg DECIMAL(6,3) NULL,          -- só produto físico
+  ADD link_download VARCHAR(255) NULL;    -- só produto digital
+
+ALTER TABLE produtos
+  ADD imagem VARCHAR(255) NULL;           -- nome do arquivo em src/uploads

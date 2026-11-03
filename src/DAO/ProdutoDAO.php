@@ -7,11 +7,12 @@ class ProdutoDAO {
   public function __construct(private PDO $pdo) {}
 
   public function inserir(Produto $p): int {
-    $st = $this->pdo->prepare('INSERT INTO produtos (nome,preco,estoque,tipo,peso_kg,link) VALUES (:n,:p,:e,:t,:w,:l)');
+    $st = $this->pdo->prepare('INSERT INTO produtos (nome,preco,estoque,tipo,peso_kg,link_download,imagem) VALUES (:n,:p,:e,:t,:w,:l,:i)');
     $st->execute([':n'=>$p->getNome(), ':p'=>$p->getPreco(), ':e'=>$p->getEstoque(),
       ':t' => $p instanceof ProdutoDigital ? 'digital' : 'fisico',
       ':w' => $p instanceof ProdutoFisico ? $p->getPesoKg() : null,
-      ':l' => $p instanceof ProdutoDigital ? $p->getLink() : null]);
+      ':l' => $p instanceof ProdutoDigital ? $p->getLink() : null,
+      ':i' => $p->getImagem()]);
     return (int)$this->pdo->lastInsertId();
   }
 
@@ -19,8 +20,8 @@ class ProdutoDAO {
 
   public function hidratar(array $r): Produto {   // linha -> objeto do tipo certo (público: o PedidoDAO reutiliza)
     return $r['tipo'] === 'digital'
-      ? new ProdutoDigital($r['id'], $r['nome'], (float)$r['preco'], (int)$r['estoque'], (string)$r['link_download'])
-      : new ProdutoFisico($r['id'], $r['nome'], (float)$r['preco'], (int)$r['estoque'], (float)$r['peso_kg']);
+      ? new ProdutoDigital($r['id'], $r['nome'], (float)$r['preco'], (int)$r['estoque'], (string)$r['link_download'], $r['imagem'])
+      : new ProdutoFisico($r['id'], $r['nome'], (float)$r['preco'], (int)$r['estoque'], (float)$r['peso_kg'], $r['imagem']);
   }
 
   public function buscar(int $id): ?Produto {

@@ -9,13 +9,14 @@ class ProdutoFisico extends Produto {
         string $nome, 
         float $preco,
         int $estoque,
-        private float $pesoKg
+        private float $pesoKg,
+        ?string $imagem = null
     ) {
-        parent::__construct($id, $nome, $preco, $estoque);
+        parent::__construct($id, $nome, $preco, $estoque, $imagem);
     }
 
     public function frete(int $qtd = 1):float {
-        return $this->pesoKg * 5 * qtd;
+        return $this->pesoKg * 5 * $qtd;
     }
 
     public function getPesoKg(): float{

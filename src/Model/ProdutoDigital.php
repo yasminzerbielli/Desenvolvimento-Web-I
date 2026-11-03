@@ -7,9 +7,10 @@ class ProdutoDigital extends Produto {
         string $nome, 
         float $preco,
         int $estoque,
-        private string $link
+        private string $link,
+        ?string $imagem = null
     ) {
-        parent::__construct($id, $nome, $preco, $estoque);
+        parent::__construct($id, $nome, $preco, $estoque, $imagem);
     }
 
     public function frete(int $qtd = 1):float {

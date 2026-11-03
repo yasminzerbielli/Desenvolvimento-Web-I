@@ -7,7 +7,8 @@ abstract class Produto {
     protected ?int $id, 
     protected string $nome, 
     protected float $preco,
-    protected int $estoque
+    protected int $estoque,
+    protected ?string $imagem = null
     ) {}
 
   abstract public function frete(int $qtd = 1): float;      // cada filha define
@@ -17,9 +18,6 @@ abstract class Produto {
   public function getNome(): string { return $this->nome; }
   public function getPreco(): float { return $this->preco; }
   public function getEstoque(): int { return $this->estoque; }
+  public function getImagem(): ?string { return $this->imagem; }
 
 }
-
-
-
-
